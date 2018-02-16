@@ -4,6 +4,7 @@ const UserController = {
     console.log(req.body);
 
 
+    // TODO: Hash user password, add more fields as needed.
     let newUser = User({
       username: req.body.username,
       email: req.body.email,
