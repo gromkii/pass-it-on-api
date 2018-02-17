@@ -5,7 +5,7 @@ const User = require('../controllers/user');
 
 router.route('/login')
   .post(passport.authenticate('local', {
-    successRedirect:'/api/user',
+    successRedirect:'/api/users',
     failureRedirect:'/api/auth/failed'
   }));
 

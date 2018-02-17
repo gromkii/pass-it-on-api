@@ -12,6 +12,7 @@ const express = require('express'),
   User = require('./model/user'),
   session = require('express-session'),
   cookieParser = require('cookie-parser'),
+  cors = require('cors'),
   mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/pass_dev');
@@ -20,7 +21,8 @@ mongoose.connect('mongodb://localhost/pass_dev');
 app.use(express.static('public'))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({extended:false}))
-  .use(methodOverride('_method'));
+  .use(methodOverride('_method'))
+  .use(cors());
 
 // --- Passport Strat --- //
 app.use(cookieParser());
@@ -50,7 +52,8 @@ passport.deserializeUser((user, done) => {
 });
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  //TODO: Remove this header, no bueno.
+  res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 
