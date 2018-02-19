@@ -53,7 +53,8 @@ passport.deserializeUser((user, done) => {
 
 app.use((req, res, next) => {
   //TODO: Remove this header, no bueno.
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://192.168.7.20");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   next();
 });
 
