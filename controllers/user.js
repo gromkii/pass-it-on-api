@@ -18,9 +18,13 @@ const UserController = {
 
         newUser.save();
 
-        res.send("New user created!");
+        res.json({
+          message: "New account has been created."
+        })
       } else {
-        res.send("User already exists with that username.");
+        res.json({
+          error: "User with that email/login already exists."
+        })
       }
     });
   },
@@ -28,7 +32,9 @@ const UserController = {
   findUserById(req, res) {
     User.findOne({id: req.params.user_id}, (err, user) => {
       if (!user) {
-        res.send("No user with that ID was found.");
+        res.json({
+          error: "No user found specified id.",
+        })
       } else {
         res.json(user.toJSON());
       }
