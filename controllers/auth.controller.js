@@ -4,33 +4,11 @@ const passport = require('passport');
 const AuthController = {
 
 
-  login(req, res, next) {
-    passport.authenticate('local', (err, user, info) => {
-      if (err) {
-        return next(res.json({
-          error: "Error: something went wrong. Check your password/email."
-        }));
-      }
-
-      if (!user) {
-        return next(res.json({
-          error: "Error: invalid user credentials."
-        }));
-      }
-
-      req.logIn(user, err => {
-        if (err) {
-          return next(res.json({
-            error: "Something went wrong."
-          }))
-        }
-
-        return res.json({
-          message: "Login successful.",
-          status: 200,
-        })
-      })
-    });
+  login() {
+    passport.authenticate('local', {
+      successRedirect:'/api/auth/success',
+      failureRedirect:'/api/auth/failed'
+    })
   },
 
   /**
@@ -56,6 +34,12 @@ const AuthController = {
     res.json({
       error: "Failed to authenticate.",
       message: "",
+    });
+  },
+
+  loginSuccessful(req, res) {
+    res.json({
+      message: "You have successfully logged in."
     });
   }
 };
