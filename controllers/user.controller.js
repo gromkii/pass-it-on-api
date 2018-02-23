@@ -1,10 +1,13 @@
-const User = require('../model/user');
+const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const UserController = {
 
-
+  /**
+   * Adds new user with supplied info. Username, Email, Password.
+   * @param req
+   * @param res
+   */
   addNewUser(req, res) {
-    // TODO: Hash user password, add more fields as needed.
     User.findOne({username: req.body.username}, (err, user) => {
       if (!user) {
         let newUser = User({
@@ -18,25 +21,36 @@ const UserController = {
 
         newUser.save();
 
+        // TODO: Break responses into a standardized data structure.
         res.json({
           message: "New account has been created."
-        })
+        });
       } else {
         res.json({
-          error: "User with that email/login already exists."
-        })
+          error: "User with that email/login already exists.",
+          message: ""
+        });
       }
     });
   },
 
+  /**
+   * Lookup user based on /users/:user_id, returns specified user if found.
+   * @param req
+   * @param res
+   */
   findUserById(req, res) {
     User.findOne({id: req.params.user_id}, (err, user) => {
       if (!user) {
         res.json({
           error: "No user found specified id.",
+          message: ""
         })
       } else {
-        res.json(user.toJSON());
+        res.json({
+          user: user.toJSON(),
+          message: "User found"
+        });
       }
     });
   }
