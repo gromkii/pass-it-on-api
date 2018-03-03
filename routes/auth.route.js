@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-const User = require('../controllers/user.controller');
-const Auth = require('../controllers/auth.controller');
+const AuthController = require('../controllers/auth.controller');
 
 router.route('/login')
   .post(passport.authenticate('local', {
@@ -10,17 +9,13 @@ router.route('/login')
     failureRedirect:'/api/auth/failed'
   }));
 
-  // TODO: Should this method be moved over to Auth controller?
-router.route('/signup')
-  .post(User.addNewUser);
-
 router.route('/logout')
-  .get(Auth.logout);
+  .get(AuthController.logout);
 
 router.route('/success')
-  .get(Auth.loginSuccessful);
+  .get(AuthController.loginSuccessful);
 
 router.route('/failed')
-  .get(Auth.loginFailed);
+  .get(AuthController.loginFailed);
 
 module.exports = router;

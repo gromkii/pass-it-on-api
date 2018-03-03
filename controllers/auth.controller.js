@@ -3,7 +3,9 @@ const passport = require('passport');
 
 const AuthController = {
 
-
+  /**
+   * Login with 'local' strategy.
+   */
   login() {
     passport.authenticate('local', {
       successRedirect:'/api/auth/success',
@@ -37,6 +39,11 @@ const AuthController = {
     });
   },
 
+  /**
+   * Returns login message when redirected from successful login.
+   * @param req
+   * @param res
+   */
   loginSuccessful(req, res) {
     res.json({
       message: "You have successfully logged in."
