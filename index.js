@@ -5,6 +5,7 @@ const express = require('express'),
   api = require('./routes/api.route'),
   userRoutes = require('./routes/users.route'),
   authRoutes = require('./routes/auth.route'),
+  noteRoutes = require('./routes/notes.route'),
   port = process.env.PORT || 3000,
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
@@ -17,14 +18,14 @@ const express = require('express'),
 
 mongoose.connect('mongodb://localhost/pass_dev');
 
-
+// --- Middleware --- //
 app.use(express.static('public'))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({extended:false}))
   .use(methodOverride('_method'))
   .use(cors());
 
-// --- Passport Strat --- //
+// --- Passport --- //
 app.use(cookieParser());
 app.use(session({ secret: 'secret' }));
 app.use(passport.initialize());
@@ -58,9 +59,12 @@ app.use((req, res, next) => {
   next();
 });
 
+
+// --- Routes --- //
 app.use('/api', api);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/notes', noteRoutes);
 
 app.listen(port, () => {
   console.log('Server is listening.');
